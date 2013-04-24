@@ -47,6 +47,7 @@ namespace Watermarking
             SelectedAlgorithm = cmbAlgorithm.SelectedValue.ToString();
             Type = cmbType.SelectedValue.ToString();
             NumberOfBits = (int)spnBitCount.Value;
+            this.Close();
         }
     }
 }

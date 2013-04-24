@@ -25,17 +25,13 @@ namespace Watermarking.Algorithms
             set { numberOfBits = value; }
         }
 
-        public LSBHiding(string HostImageFileName, string SecretImageFileName)
+        public LSBHiding(Bitmap hostImage, Bitmap secretImage)
         {
-            if (HostImageFileName == string.Empty)
-                throw new ArgumentNullException("HostImageFileName");
-            if (SecretImageFileName == string.Empty)
-                throw new ArgumentNullException("SecretImageFileName");
-
-            hostImage = new Bitmap(HostImageFileName);
-            secretImage = new Bitmap(SecretImageFileName);
             if (secretImage.Width > hostImage.Width || secretImage.Height > hostImage.Height)
                 throw new Exception("Secret image must be small than host image.");
+            
+            this.hostImage = hostImage;
+            this.secretImage = secretImage;
         }
 
         private void maskImage(Bitmap image, byte bits)
@@ -56,9 +52,10 @@ namespace Watermarking.Algorithms
             }
         }
 
-        public void saveOutputImage(String filename, ImageFormat format)
+        public void saveOutputImage(String path)
         {
-            OutputImage.Save(filename, format);
+            string filename = "OutputImage_LSB-MSB_" + NumberOfBits.ToString() + ".jpg";
+            OutputImage.Save(path + filename, ImageFormat.Jpeg);
             OutputImage.Dispose();
         }
 
