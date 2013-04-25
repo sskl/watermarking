@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Watermarking.Algorithms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -16,7 +9,23 @@ namespace Watermarking
     public partial class ImageItems : DockContent
     {
         private Bitmap hostImage;
+        public Bitmap HostImage
+        {
+            get { return hostImage; }
+        }
+
         private Bitmap secretImage;
+        public Bitmap SecretImage
+        {
+            get { return secretImage; }
+        }
+
+        private Bitmap outputImage;
+        public Bitmap OutputImage
+        {
+            get { return outputImage; }
+        }
+
         private string path = "D:\\WorkSpaces\\VisualStudio\\Projects\\Watermarking\\Watermarking\\Outputs\\";
         private string algorithm;
         private string type;
@@ -117,7 +126,8 @@ namespace Watermarking
                                 break;
                         }
 
-                        outputImageBox.Image = (Image)lsb.OutputImage.Clone();
+                        outputImage = (Bitmap)lsb.OutputImage.Clone();
+                        outputImageBox.Image = (Image)outputImage;
                         lsb.saveOutputImage(path);
 
                     }

@@ -2,16 +2,16 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
-using Watermarking.Algorithms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Watermarking
 {
     public partial class MainForm : Form
     {
-        private SettingsForm settingsForm { get; set; }
-        private ImageItems imageItems { get; set; }
-        private PropertiesForm propertiesForm { get; set; }
+        private SettingsForm settingsForm;
+        private ImageItems imageItems;
+        private PropertiesForm propertiesForm;
+        private HistogramForm histogramForm;
 
         private String hostImageFileName = String.Empty;
         public String HostImageFileName
@@ -36,7 +36,9 @@ namespace Watermarking
         private void CreateStandardControls()
         {
             propertiesForm = new PropertiesForm();
-            propertiesForm.Show(dockPanel, DockState.DockBottom);            
+            histogramForm = new HistogramForm();
+            propertiesForm.Show(dockPanel, DockState.DockBottom);
+            histogramForm.Show(dockPanel, DockState.DockBottom);
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -81,6 +83,8 @@ namespace Watermarking
                 settingsForm.Owner = this;
                 settingsForm.ShowDialog();
 
+                Cursor = Cursors.WaitCursor;
+
                 imageItems = new ImageItems(HostImageFileName,
                                             SecretImageFileName,
                                             settingsForm.SelectedAlgorithm,
@@ -90,8 +94,15 @@ namespace Watermarking
                 imageItems.Show(dockPanel);
                 SetupDocumentsEvents(imageItems);
                 imageItems.Focus();
-                
+                propertiesForm.SetProperties(imageItems.HostImage,
+                                             imageItems.SecretImage,
+                                             imageItems.OutputImage);
+                histogramForm.SetHistograms(imageItems.HostImage,
+                                            imageItems.SecretImage,
+                                            imageItems.OutputImage);
                 settingsForm.Dispose();
+
+                Cursor = Cursors.Arrow;
             }
             catch (Exception E)
             {
@@ -119,7 +130,7 @@ namespace Watermarking
         private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AboutBox about = new AboutBox();
-            about.Show();
+            about.ShowDialog();
         }
 
         // On mouse position over image changed
@@ -157,7 +168,21 @@ namespace Watermarking
 
         private void dockPanel_ActiveDocumentChanged(object sender, EventArgs e)
         {
+            IDockContent content = dockPanel.ActiveDocument;
+            ImageItems imgItems = (content is ImageItems) ? (ImageItems)content : null;
 
+            UpdateProperties(imgItems);
+            //updatehistogram(imgdoc);
+            //updatezoomstatus(imgdoc);
+
+            //updatesizestatus(doc);
+        }
+
+        private void UpdateProperties(ImageItems imageItems)
+        {
+            propertiesForm.SetProperties(imageItems.HostImage,
+                                         imageItems.SecretImage,
+                                         imageItems.OutputImage);
         }
     }
 }

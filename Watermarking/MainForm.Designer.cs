@@ -218,7 +218,7 @@
             // 
             this.dockPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dockPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.dockPanel.DockBottomPortion = 150D;
+            this.dockPanel.DockBottomPortion = 220D;
             this.dockPanel.DockLeftPortion = 200D;
             this.dockPanel.DockRightPortion = 235D;
             this.dockPanel.DockTopPortion = 150D;
