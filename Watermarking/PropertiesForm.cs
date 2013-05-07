@@ -65,6 +65,13 @@ namespace Watermarking
 
             return;
         }
+
+        internal void Clear()
+        {
+            hostImgPropertyGrid.SelectedObject = null;
+            secretImgPropertyGrid.SelectedObject = null;
+            outputImgPropertyGrid.SelectedObject = null;
+        }
     }
 
     public class ImageProperties

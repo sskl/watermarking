@@ -61,7 +61,35 @@ namespace Watermarking
                 
                 hostImageBox.Image = (Image)hostImage;
                 secretImageBox.Image = (Image)secretImage;
-                
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(
+                    E.ToString(),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        public ImageItems(string OutputImageFileName, string algorithm, string type, int numberOfBits)
+        {
+            InitializeComponent();
+            if (OutputImageFileName == string.Empty)
+                throw new ArgumentNullException("OutputImageFileName");
+
+            try
+            {
+                hostImageBox.Visible = false;
+                hostImageLabel.Visible = false;
+                outputImage = new Bitmap(OutputImageFileName);
+                this.algorithm = algorithm;
+                this.type = type;
+                this.numberOfBits = numberOfBits;
+
+                DeRunAlgorithm();
+
+                outputImageBox.Image = (Image)outputImage;
             }
             catch (Exception E)
             {
@@ -77,10 +105,20 @@ namespace Watermarking
         {
             int height = this.Height;
             int y = (height - pictureBoxSize)/2;
+            Point p1, p2, p3;
 
-            Point p1 = new Point(10, y);
-            Point p2 = new Point(pictureBoxSize + 20, y);
-            Point p3 = new Point(2 * pictureBoxSize + 30, y);
+            if (HostImage != null)
+            {
+                p1 = new Point(10, y);
+                p2 = new Point(pictureBoxSize + 20, y);
+                p3 = new Point(2 * pictureBoxSize + 30, y);
+            }
+            else
+            {
+                p1 = new Point(2 * pictureBoxSize + 30, y);
+                p2 = new Point(pictureBoxSize + 20, y);
+                p3 = new Point(10, y);
+            }
 
             hostImageBox.Location = p1;
             hostImageLabel.Location = new Point(hostImageBox.Location.X + (hostImageBox.Width / 2) - (hostImageLabel.Width / 2),
@@ -128,7 +166,49 @@ namespace Watermarking
 
                         outputImage = (Bitmap)lsb.OutputImage.Clone();
                         outputImageBox.Image = (Image)outputImage;
-                        lsb.saveOutputImage(path);
+                        lsb.saveOutputImage(path, "OutputImage_" + type + "_" + numberOfBits.ToString() + ".bmp");
+
+                    }
+                    catch (Exception E)
+                    {
+                        MessageBox.Show(
+                            E.ToString(),
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    break;
+                default:
+                    MessageBox.Show(
+                        "Please select algorithm!",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        private void DeRunAlgorithm()
+        {
+            switch (algorithm)
+            {
+                case "LSBHiding":
+                    try
+                    {
+                        LSBHiding lsb = new LSBHiding(outputImage);
+                        lsb.NumberOfBits = numberOfBits;
+                        switch (type)
+                        {
+                            case "LSB_LSB":
+                                lsb.Reverse_LSB_LSB();
+                                break;
+                            case "LSB_MSB":
+                                lsb.Reverse_LSB_MSB();
+                                break;
+                        }
+
+                        secretImage = (Bitmap)lsb.SecretImage.Clone();
+                        secretImageBox.Image = (Image)secretImage;
 
                     }
                     catch (Exception E)

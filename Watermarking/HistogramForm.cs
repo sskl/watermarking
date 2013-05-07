@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -69,6 +71,9 @@ namespace Watermarking
                 outputImageChart.Series.Clear();
             }
 
+            if (hostImage != null && secretImage != null && outputImage != null)
+                allImageComboBox.Enabled = true;
+
             return;
         }
 
@@ -108,36 +113,126 @@ namespace Watermarking
 
         private void hostImageComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (hostImageChart.Series.Count > 0)
-                hostImageChart.Series.RemoveAt(0);
-            hostImageChart.Series.Add(hostImageSeries[hostImageComboBox.SelectedIndex]);
+            try
+            {
+                if (hostImageChart.Series.Count > 0)
+                    hostImageChart.Series.RemoveAt(0);
+                hostImageChart.Series.Add(hostImageSeries[hostImageComboBox.SelectedIndex]);
+            }
+            catch { }
         }
 
         private void secretImageComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (secretImageChart.Series.Count > 0)
-                secretImageChart.Series.RemoveAt(0);
-            secretImageChart.Series.Add(secretImageSeries[secretImageComboBox.SelectedIndex]);
+            try
+            {
+                if (secretImageChart.Series.Count > 0)
+                    secretImageChart.Series.RemoveAt(0);
+                secretImageChart.Series.Add(secretImageSeries[secretImageComboBox.SelectedIndex]);
+            }
+            catch { }
         }
 
         private void outputImageComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (outputImageChart.Series.Count > 0)
-                outputImageChart.Series.RemoveAt(0);
-            outputImageChart.Series.Add(outputImageSeries[outputImageComboBox.SelectedIndex]);
+            try
+            {
+                if (outputImageChart.Series.Count > 0)
+                    outputImageChart.Series.RemoveAt(0);
+                outputImageChart.Series.Add(outputImageSeries[outputImageComboBox.SelectedIndex]);
+            }
+            catch { }
         }
 
         private void allImageComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if (hostImageChart.Series.Count > 0)
+            try
+            {
+                if (hostImageChart.Series.Count > 0)
+                    hostImageChart.Series.RemoveAt(0);
+                if (secretImageChart.Series.Count > 0)
+                    secretImageChart.Series.RemoveAt(0);
+                if (outputImageChart.Series.Count > 0)
+                    outputImageChart.Series.RemoveAt(0);
+                hostImageChart.Series.Add(hostImageSeries[allImageComboBox.SelectedIndex]);
+                secretImageChart.Series.Add(secretImageSeries[allImageComboBox.SelectedIndex]);
+                outputImageChart.Series.Add(outputImageSeries[allImageComboBox.SelectedIndex]);
+            }
+            catch { }
+        }
+
+        private void hostImageChart_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                int cursorX = Convert.ToInt32(hostImageChart.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X));
+                DataPoint dp = hostImageChart.Series[0].Points[cursorX];
+                hostImageChart.Series[0].ToolTip = "Level : " + cursorX + Environment.NewLine + "Count : " + dp.YValues[0];
+            }
+            catch { }
+        }
+
+        private void secretImageChart_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+               int cursorX = Convert.ToInt32(secretImageChart.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X));
+                DataPoint dp = hostImageChart.Series[0].Points[cursorX];
+                secretImageChart.Series[0].ToolTip = "Level : " + cursorX + Environment.NewLine + "Count : " + dp.YValues[0];
+            }
+            catch { }
+        }
+
+        private void outputImageChart_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                int cursorX = Convert.ToInt32(outputImageChart.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X));
+                DataPoint dp = hostImageChart.Series[0].Points[cursorX];
+                outputImageChart.Series[0].ToolTip = "Level : " + cursorX + Environment.NewLine + "Count : " + dp.YValues[0];
+            }
+            catch { }
+        }
+
+        internal void Clear()
+        {
+            try
+            {
                 hostImageChart.Series.RemoveAt(0);
-            if (secretImageChart.Series.Count > 0)
                 secretImageChart.Series.RemoveAt(0);
-            if (outputImageChart.Series.Count > 0)
                 outputImageChart.Series.RemoveAt(0);
-            hostImageChart.Series.Add(hostImageSeries[allImageComboBox.SelectedIndex]);
-            secretImageChart.Series.Add(secretImageSeries[allImageComboBox.SelectedIndex]);
-            outputImageChart.Series.Add(outputImageSeries[allImageComboBox.SelectedIndex]);
+            }
+            catch { }
+        }
+
+        private void hostImageChart_MouseHover(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Cross;
+        }
+
+        private void hostImageChart_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
+
+        private void secretImageChart_MouseHover(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Cross;
+        }
+
+        private void secretImageChart_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
+
+        private void outputImageChart_MouseHover(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Cross;
+        }
+
+        private void outputImageChart_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Arrow;
         }
     }
 

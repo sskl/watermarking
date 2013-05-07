@@ -69,6 +69,9 @@
             this.hostImageChart.Name = "hostImageChart";
             this.hostImageChart.Size = new System.Drawing.Size(258, 136);
             this.hostImageChart.TabIndex = 0;
+            this.hostImageChart.MouseLeave += new System.EventHandler(this.hostImageChart_MouseLeave);
+            this.hostImageChart.MouseHover += new System.EventHandler(this.hostImageChart_MouseHover);
+            this.hostImageChart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.hostImageChart_MouseMove);
             // 
             // hostImageChannelLabel
             // 
@@ -103,7 +106,7 @@
             "Green",
             "Blue",
             "Gray"});
-            this.secretImageComboBox.Location = new System.Drawing.Point(428, 8);
+            this.secretImageComboBox.Location = new System.Drawing.Point(428, 9);
             this.secretImageComboBox.Name = "secretImageComboBox";
             this.secretImageComboBox.Size = new System.Drawing.Size(121, 21);
             this.secretImageComboBox.TabIndex = 5;
@@ -112,7 +115,7 @@
             // secretImageChannelLabel
             // 
             this.secretImageChannelLabel.AutoSize = true;
-            this.secretImageChannelLabel.Location = new System.Drawing.Point(288, 11);
+            this.secretImageChannelLabel.Location = new System.Drawing.Point(288, 12);
             this.secretImageChannelLabel.Name = "secretImageChannelLabel";
             this.secretImageChannelLabel.Size = new System.Drawing.Size(112, 13);
             this.secretImageChannelLabel.TabIndex = 4;
@@ -135,11 +138,14 @@
             chartArea2.CursorY.IsUserSelectionEnabled = true;
             chartArea2.Name = "SecretImageChartArea";
             this.secretImageChart.ChartAreas.Add(chartArea2);
-            this.secretImageChart.Location = new System.Drawing.Point(291, 35);
+            this.secretImageChart.Location = new System.Drawing.Point(291, 36);
             this.secretImageChart.Margin = new System.Windows.Forms.Padding(0);
             this.secretImageChart.Name = "secretImageChart";
             this.secretImageChart.Size = new System.Drawing.Size(258, 136);
             this.secretImageChart.TabIndex = 3;
+            this.secretImageChart.MouseLeave += new System.EventHandler(this.secretImageChart_MouseLeave);
+            this.secretImageChart.MouseHover += new System.EventHandler(this.secretImageChart_MouseHover);
+            this.secretImageChart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.secretImageChart_MouseMove);
             // 
             // outputImageComboBox
             // 
@@ -150,7 +156,7 @@
             "Green",
             "Blue",
             "Gray"});
-            this.outputImageComboBox.Location = new System.Drawing.Point(712, 8);
+            this.outputImageComboBox.Location = new System.Drawing.Point(710, 9);
             this.outputImageComboBox.Name = "outputImageComboBox";
             this.outputImageComboBox.Size = new System.Drawing.Size(121, 21);
             this.outputImageComboBox.TabIndex = 8;
@@ -159,7 +165,7 @@
             // outputImageChannelLabel
             // 
             this.outputImageChannelLabel.AutoSize = true;
-            this.outputImageChannelLabel.Location = new System.Drawing.Point(572, 11);
+            this.outputImageChannelLabel.Location = new System.Drawing.Point(570, 12);
             this.outputImageChannelLabel.Name = "outputImageChannelLabel";
             this.outputImageChannelLabel.Size = new System.Drawing.Size(113, 13);
             this.outputImageChannelLabel.TabIndex = 7;
@@ -182,21 +188,25 @@
             chartArea3.CursorY.IsUserSelectionEnabled = true;
             chartArea3.Name = "OutputImageChartArea";
             this.outputImageChart.ChartAreas.Add(chartArea3);
-            this.outputImageChart.Location = new System.Drawing.Point(575, 35);
+            this.outputImageChart.Location = new System.Drawing.Point(573, 36);
             this.outputImageChart.Margin = new System.Windows.Forms.Padding(0);
             this.outputImageChart.Name = "outputImageChart";
             this.outputImageChart.Size = new System.Drawing.Size(258, 136);
             this.outputImageChart.TabIndex = 6;
+            this.outputImageChart.MouseLeave += new System.EventHandler(this.outputImageChart_MouseLeave);
+            this.outputImageChart.MouseHover += new System.EventHandler(this.outputImageChart_MouseHover);
+            this.outputImageChart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.outputImageChart_MouseMove);
             // 
             // allImageComboBox
             // 
+            this.allImageComboBox.Enabled = false;
             this.allImageComboBox.FormattingEnabled = true;
             this.allImageComboBox.Items.AddRange(new object[] {
             "Red",
             "Green",
             "Blue",
             "Gray"});
-            this.allImageComboBox.Location = new System.Drawing.Point(949, 8);
+            this.allImageComboBox.Location = new System.Drawing.Point(992, 9);
             this.allImageComboBox.Name = "allImageComboBox";
             this.allImageComboBox.Size = new System.Drawing.Size(121, 21);
             this.allImageComboBox.TabIndex = 10;
@@ -205,7 +215,7 @@
             // allImageChannelLabel
             // 
             this.allImageChannelLabel.AutoSize = true;
-            this.allImageChannelLabel.Location = new System.Drawing.Point(851, 11);
+            this.allImageChannelLabel.Location = new System.Drawing.Point(855, 12);
             this.allImageChannelLabel.Name = "allImageChannelLabel";
             this.allImageChannelLabel.Size = new System.Drawing.Size(92, 13);
             this.allImageChannelLabel.TabIndex = 9;
@@ -215,7 +225,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1082, 179);
+            this.ClientSize = new System.Drawing.Size(1182, 179);
             this.Controls.Add(this.allImageComboBox);
             this.Controls.Add(this.allImageChannelLabel);
             this.Controls.Add(this.outputImageComboBox);

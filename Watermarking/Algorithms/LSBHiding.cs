@@ -9,6 +9,11 @@ namespace Watermarking.Algorithms
     {
         private Bitmap hostImage;
         private Bitmap secretImage;
+        public Bitmap SecretImage
+        {
+            get { return secretImage; }
+            set { secretImage = value; }
+        }
 
         private Bitmap outputImage;
         public Bitmap OutputImage
@@ -33,6 +38,11 @@ namespace Watermarking.Algorithms
             this.secretImage = secretImage;
         }
 
+        public LSBHiding(Bitmap outputImage)
+        {
+            this.outputImage = outputImage;
+        }
+
         private void maskImage(Bitmap image, byte bits)
         {
             int width = image.Width;
@@ -51,10 +61,9 @@ namespace Watermarking.Algorithms
             }
         }
 
-        public void saveOutputImage(String path)
+        public void saveOutputImage(String path, String filename)
         {
-            string filename = "OutputImage_LSB-MSB_" + NumberOfBits.ToString() + ".jpg";
-            OutputImage.Save(path + filename, ImageFormat.Jpeg);
+            OutputImage.Save(path + filename, ImageFormat.Bmp);
             OutputImage.Dispose();
         }
 
@@ -86,6 +95,30 @@ namespace Watermarking.Algorithms
             }
         }
 
+        internal void Reverse_LSB_LSB()
+        {
+            secretImage = new Bitmap(outputImage);
+            Color outputImgPixelColor;
+            Color pixelNewColor;
+            int width = outputImage.Width;
+            int height = outputImage.Height;
+            byte secretImgbits = (byte)(255 >> (8 - NumberOfBits));
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    outputImgPixelColor = outputImage.GetPixel(x, y);
+
+                    pixelNewColor = Color.FromArgb((outputImgPixelColor.R & secretImgbits),
+                                                   (outputImgPixelColor.G & secretImgbits),
+                                                   (outputImgPixelColor.B & secretImgbits));
+
+                    secretImage.SetPixel(x, y, pixelNewColor);
+                }
+            }
+        }
+
         internal void LSB_MSB()
         {
             OutputImage = new Bitmap(hostImage);
@@ -112,6 +145,30 @@ namespace Watermarking.Algorithms
                                                    (outputImgPixelColor.B & outputImgbits) | (tmpSecretImgPixelColor.B & secretImgbits));
 
                     OutputImage.SetPixel(x, y, pixelNewColor);
+                }
+            }
+        }
+
+        internal void Reverse_LSB_MSB()
+        {
+            secretImage = new Bitmap(outputImage);
+            Color outputImgPixelColor;
+            Color pixelNewColor;
+            int width = outputImage.Width;
+            int height = outputImage.Height;
+            byte secretImgbits = (byte)(255 >> (8 - NumberOfBits));
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    outputImgPixelColor = outputImage.GetPixel(x, y);
+
+                    pixelNewColor = Color.FromArgb(((outputImgPixelColor.R & secretImgbits) << (8 - NumberOfBits)),
+                                                   ((outputImgPixelColor.G & secretImgbits) << (8 - NumberOfBits)),
+                                                   ((outputImgPixelColor.B & secretImgbits) << (8 - NumberOfBits)));
+
+                    secretImage.SetPixel(x, y, pixelNewColor);
                 }
             }
         }
