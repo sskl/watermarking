@@ -83,6 +83,8 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Algorithms\LSBHiding.cs" />
+    <Compile Include="Algorithms\PSNR.cs" />
+    <Compile Include="Algorithms\VisualCryptography.cs" />
     <Compile Include="AnalysisForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -31,23 +31,34 @@ namespace Watermarking
         public SettingsForm()
         {
             InitializeComponent();
-
-            Hashtable htAlgorithms = new Hashtable();
-            htAlgorithms.Add("LSBHiding", "LSB Hiding");
-            cmbAlgorithm.DataSource = new BindingSource(htAlgorithms, null);
-
-            Hashtable htLSBHidingTypes = new Hashtable();
-            htLSBHidingTypes.Add("LSB_LSB", "LSB-LSB");
-            htLSBHidingTypes.Add("LSB_MSB", "LSB-MSB");
-            cmbType.DataSource = new BindingSource(htLSBHidingTypes, null);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            SelectedAlgorithm = cmbAlgorithm.SelectedValue.ToString();
-            Type = cmbType.SelectedValue.ToString();
+            SelectedAlgorithm = cmbAlgorithm.Text;
+            Type = cmbType.Text;
             NumberOfBits = (int)spnBitCount.Value;
             this.Close();
+        }
+
+        private void cmbAlgorithm_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedAlgorithm = cmbAlgorithm.Text;
+            switch (SelectedAlgorithm)
+            {
+                case "LSB Hiding":
+                    cmbType.Show();
+                    lblType.Show();
+                    spnBitCount.Show();
+                    lblBitCount.Show();
+                    break;
+                case "Visual Cryptography":
+                    cmbType.Show();
+                    lblType.Show();
+                    spnBitCount.Show();
+                    lblBitCount.Show();
+                    break;
+            }
         }
     }
 }

@@ -47,9 +47,9 @@
             this.hostImageBox.MinimumSize = new System.Drawing.Size(200, 200);
             this.hostImageBox.Name = "hostImageBox";
             this.hostImageBox.Size = new System.Drawing.Size(200, 200);
+            this.hostImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.hostImageBox.TabIndex = 0;
             this.hostImageBox.TabStop = false;
-            this.hostImageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.hostImageBox_MouseMove);
             // 
             // secretImageBox
             // 
@@ -59,9 +59,9 @@
             this.secretImageBox.MinimumSize = new System.Drawing.Size(200, 200);
             this.secretImageBox.Name = "secretImageBox";
             this.secretImageBox.Size = new System.Drawing.Size(200, 200);
+            this.secretImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.secretImageBox.TabIndex = 1;
             this.secretImageBox.TabStop = false;
-            this.secretImageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.secretImageBox_MouseMove);
             // 
             // outputImageBox
             // 
@@ -71,9 +71,9 @@
             this.outputImageBox.MinimumSize = new System.Drawing.Size(200, 200);
             this.outputImageBox.Name = "outputImageBox";
             this.outputImageBox.Size = new System.Drawing.Size(200, 200);
+            this.outputImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.outputImageBox.TabIndex = 2;
             this.outputImageBox.TabStop = false;
-            this.outputImageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.outputImageBox_MouseMove);
             // 
             // hostImageLabel
             // 

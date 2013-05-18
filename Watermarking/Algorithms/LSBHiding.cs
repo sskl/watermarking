@@ -140,9 +140,10 @@ namespace Watermarking.Algorithms
                     tmpSecretImgPixelColor = Color.FromArgb(tmpSecretImgPixelColor.R >> (8 - NumberOfBits),
                                                             tmpSecretImgPixelColor.G >> (8 - NumberOfBits),
                                                             tmpSecretImgPixelColor.B >> (8 - NumberOfBits));
-                    pixelNewColor = Color.FromArgb((outputImgPixelColor.R & outputImgbits) | (tmpSecretImgPixelColor.R & secretImgbits),
-                                                   (outputImgPixelColor.G & outputImgbits) | (tmpSecretImgPixelColor.G & secretImgbits),
-                                                   (outputImgPixelColor.B & outputImgbits) | (tmpSecretImgPixelColor.B & secretImgbits));
+
+                    pixelNewColor = Color.FromArgb((outputImgPixelColor.R & outputImgbits) | (tmpSecretImgPixelColor.R),
+                                                   (outputImgPixelColor.G & outputImgbits) | (tmpSecretImgPixelColor.G),
+                                                   (outputImgPixelColor.B & outputImgbits) | (tmpSecretImgPixelColor.B));
 
                     OutputImage.SetPixel(x, y, pixelNewColor);
                 }

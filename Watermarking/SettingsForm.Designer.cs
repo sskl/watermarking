@@ -50,14 +50,17 @@
             // 
             // cmbAlgorithm
             // 
-            this.cmbAlgorithm.DisplayMember = "value";
             this.cmbAlgorithm.FormattingEnabled = true;
+            this.cmbAlgorithm.Items.AddRange(new object[] {
+            "LSB Hiding",
+            "Visual Cryptography"});
             this.cmbAlgorithm.Location = new System.Drawing.Point(124, 28);
             this.cmbAlgorithm.Name = "cmbAlgorithm";
             this.cmbAlgorithm.Size = new System.Drawing.Size(137, 21);
             this.cmbAlgorithm.Sorted = true;
             this.cmbAlgorithm.TabIndex = 13;
-            this.cmbAlgorithm.ValueMember = "key";
+            this.cmbAlgorithm.SelectedIndex = 0;
+            this.cmbAlgorithm.SelectedIndexChanged += new System.EventHandler(this.cmbAlgorithm_SelectedIndexChanged);
             // 
             // lblAlgorithm
             // 
@@ -101,14 +104,16 @@
             // 
             // cmbType
             // 
-            this.cmbType.DisplayMember = "value";
             this.cmbType.FormattingEnabled = true;
+            this.cmbType.Items.AddRange(new object[] {
+            "LSB-LSB",
+            "LSB-MSB"});
             this.cmbType.Location = new System.Drawing.Point(124, 65);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(137, 21);
             this.cmbType.Sorted = true;
             this.cmbType.TabIndex = 16;
-            this.cmbType.ValueMember = "key";
+            this.cmbType.SelectedIndex = 0;
             // 
             // lblType
             // 

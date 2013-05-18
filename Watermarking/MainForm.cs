@@ -56,7 +56,7 @@ namespace Watermarking
         {
             OpenFileDialog dlgSelectHostImage = new OpenFileDialog();
             dlgSelectHostImage.Title = "Select Host Image File";
-            dlgSelectHostImage.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.tif;*.tiff";
+            dlgSelectHostImage.Filter = "Image Files|*.bmp";
             dlgSelectHostImage.FilterIndex = 1;
             dlgSelectHostImage.Multiselect = false;
 
@@ -71,7 +71,7 @@ namespace Watermarking
 
             OpenFileDialog dlgSelectSecretImage = new OpenFileDialog();
             dlgSelectSecretImage.Title = "Select Secret Image File";
-            dlgSelectSecretImage.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.tif;*.tiff";
+            dlgSelectSecretImage.Filter = "Image Files|*.bmp";
             dlgSelectSecretImage.FilterIndex = 1;
             dlgSelectSecretImage.Multiselect = false;
 
@@ -96,19 +96,11 @@ namespace Watermarking
                                             SecretImageFileName,
                                             settingsForm.SelectedAlgorithm,
                                             settingsForm.Type,
-                                            settingsForm.NumberOfBits);
+                                            settingsForm.NumberOfBits,
+                                            analysisForm);
                 imageItems.Text = System.IO.Path.GetFileName(HostImageFileName);
                 imageItems.Show(dockPanel);
-                SetupDocumentsEvents(imageItems);
                 imageItems.Focus();
-                propertiesForm.SetProperties(imageItems.HostImage,
-                                             imageItems.SecretImage,
-                                             imageItems.OutputImage);
-                histogramForm.SetHistograms(imageItems.HostImage,
-                                            imageItems.SecretImage,
-                                            imageItems.OutputImage);
-                analysisForm.SetPSNR(imageItems.HostImage,
-                                     imageItems.OutputImage);
                 settingsForm.Dispose();
 
                 Cursor = Cursors.Arrow;
@@ -125,12 +117,6 @@ namespace Watermarking
             return;
         }
 
-        private void SetupDocumentsEvents(ImageItems item)
-        {
-            item.MouseMove += new System.Windows.Forms.MouseEventHandler(this.document_MousePosition);
-            item.MouseImagePosition += new ImageItems.SelectionEventHandler(this.document_MouseImagePosition);
-        }
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -142,39 +128,6 @@ namespace Watermarking
             about.ShowDialog();
         }
 
-        // On mouse position over image changed
-        private void document_MouseImagePosition(Bitmap image, Point point)
-        {
-            if (point.X >= 0)
-            {
-                this.toolStripStatusLabelPosition.Text = string.Format("({0}, {1})", point.X, point.Y);
-                try
-                {
-                    Color color = image.GetPixel(point.X, point.Y);
-
-                    if (image.PixelFormat == PixelFormat.Format32bppArgb || image.PixelFormat == PixelFormat.Format24bppRgb)
-                    {
-                        this.toolStripStatusLabelRGB.Text = string.Format("RGB: {0}; {1}; {2}", color.R, color.G, color.B);
-                    }
-                    else if (image.PixelFormat == PixelFormat.Format8bppIndexed)
-                    {
-                        this.toolStripStatusLabelRGB.Text = "Gray: " + color.R.ToString();
-                    }
-                }
-                catch (Exception)
-                {
-                    this.toolStripStatusLabelPosition.Text = "";
-                    this.toolStripStatusLabelRGB.Text = "";
-                }
-            }
-        }
-
-        private void document_MousePosition(object image, MouseEventArgs point)
-        {
-            this.toolStripStatusLabelPosition.Text = "";
-            this.toolStripStatusLabelRGB.Text = "";
-        }
-
         private void dockPanel_ActiveDocumentChanged(object sender, EventArgs e)
         {
             IDockContent content = dockPanel.ActiveDocument;
@@ -183,26 +136,6 @@ namespace Watermarking
             UpdateProperties(imgItems);
             UpdateHistogram(imgItems);
             UpdateAnalysis(imgItems);
-        }
-
-        private void UpdateAnalysis(ImageItems imgItems)
-        {
-            if (imageItems != null)
-            {
-                if (imageItems.HostImage != null)
-                {
-                    analysisForm.SetPSNR(imageItems.HostImage,
-                                         imageItems.OutputImage);
-                }
-                else
-                {
-                    analysisForm.Clear();
-                }
-            }
-            else
-            {
-                analysisForm.Clear();
-            }
         }
 
         private void UpdateProperties(ImageItems imageItems)
@@ -223,6 +156,30 @@ namespace Watermarking
                                             imageItems.OutputImage);
             else
                 histogramForm.Clear();
+        }
+
+        private void UpdateAnalysis(ImageItems imageItems)
+        {
+            if (imageItems != null)
+            {
+                if (imageItems.HostImage != null)
+                {
+                    analysisForm.SetPSNR(imageItems.HostImage,
+                                         imageItems.OutputImage);
+                    if (analysisForm.IsHidden == true)
+                    {
+                        analysisForm.Show();
+                    }
+                }
+                else
+                {
+                    analysisForm.Clear();
+                }
+            }
+            else
+            {
+                analysisForm.Clear();
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -271,7 +228,7 @@ namespace Watermarking
         {
             OpenFileDialog dlgSelectOutputImage = new OpenFileDialog();
             dlgSelectOutputImage.Title = "Select Host Image File";
-            dlgSelectOutputImage.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.tif;*.tiff;*.bmp";
+            dlgSelectOutputImage.Filter = "Image Files|*.bmp";
             dlgSelectOutputImage.FilterIndex = 1;
             dlgSelectOutputImage.Multiselect = false;
 
@@ -300,14 +257,7 @@ namespace Watermarking
                                             settingsForm.NumberOfBits);
                 imageItems.Text = System.IO.Path.GetFileName(OutputImageFileName);
                 imageItems.Show(dockPanel);
-                SetupDocumentsEvents(imageItems);
                 imageItems.Focus();
-                propertiesForm.SetProperties(imageItems.HostImage,
-                                             imageItems.SecretImage,
-                                             imageItems.OutputImage);
-                histogramForm.SetHistograms(imageItems.HostImage,
-                                            imageItems.SecretImage,
-                                            imageItems.OutputImage);
                 settingsForm.Dispose();
 
                 Cursor = Cursors.Arrow;
@@ -323,6 +273,21 @@ namespace Watermarking
 
             return;
 
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageItems != null)
+            {
+                if (imageItems.HostImage != null)
+                {
+                    Clipboard.SetImage(imageItems.OutputImage);
+                }
+                else
+                {
+                    Clipboard.SetImage(imageItems.SecretImage);
+                }
+            }
         }
     }
 }

@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.outputImgPropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.PSNRDataGridView = new System.Windows.Forms.DataGridView();
             this.outputImageLabel = new Watermarking.Controls.RotatingLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.PSNRDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // outputImgPropertyGrid
@@ -41,6 +43,23 @@
             this.outputImgPropertyGrid.Size = new System.Drawing.Size(264, 168);
             this.outputImgPropertyGrid.TabIndex = 6;
             this.outputImgPropertyGrid.ToolbarVisible = false;
+            // 
+            // PSNRDataGridView
+            // 
+            this.PSNRDataGridView.AllowUserToAddRows = false;
+            this.PSNRDataGridView.AllowUserToDeleteRows = false;
+            this.PSNRDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.PSNRDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.PSNRDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.PSNRDataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
+            this.PSNRDataGridView.Location = new System.Drawing.Point(302, 5);
+            this.PSNRDataGridView.Margin = new System.Windows.Forms.Padding(0);
+            this.PSNRDataGridView.Name = "PSNRDataGridView";
+            this.PSNRDataGridView.RowHeadersVisible = false;
+            this.PSNRDataGridView.RowHeadersWidth = 10;
+            this.PSNRDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.PSNRDataGridView.Size = new System.Drawing.Size(360, 168);
+            this.PSNRDataGridView.TabIndex = 8;
             // 
             // outputImageLabel
             // 
@@ -55,12 +74,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(332, 179);
+            this.ClientSize = new System.Drawing.Size(892, 179);
+            this.Controls.Add(this.PSNRDataGridView);
             this.Controls.Add(this.outputImageLabel);
             this.Controls.Add(this.outputImgPropertyGrid);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.Name = "AnalysisForm";
             this.Text = "Analysis";
+            ((System.ComponentModel.ISupportInitialize)(this.PSNRDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -69,6 +90,7 @@
 
         private Controls.RotatingLabel outputImageLabel;
         private System.Windows.Forms.PropertyGrid outputImgPropertyGrid;
+        private System.Windows.Forms.DataGridView PSNRDataGridView;
 
     }
 }
