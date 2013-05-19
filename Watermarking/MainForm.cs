@@ -94,9 +94,7 @@ namespace Watermarking
 
                 imageItems = new ImageItems(HostImageFileName,
                                             SecretImageFileName,
-                                            settingsForm.SelectedAlgorithm,
-                                            settingsForm.Type,
-                                            settingsForm.NumberOfBits,
+                                            settingsForm,
                                             analysisForm);
                 imageItems.Text = System.IO.Path.GetFileName(HostImageFileName);
                 imageItems.Show(dockPanel);
@@ -252,9 +250,7 @@ namespace Watermarking
                 analysisForm.Hide();
 
                 imageItems = new ImageItems(OutputImageFileName,
-                                            settingsForm.SelectedAlgorithm,
-                                            settingsForm.Type,
-                                            settingsForm.NumberOfBits);
+                                            settingsForm);
                 imageItems.Text = System.IO.Path.GetFileName(OutputImageFileName);
                 imageItems.Show(dockPanel);
                 imageItems.Focus();

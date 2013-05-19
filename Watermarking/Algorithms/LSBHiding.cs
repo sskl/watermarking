@@ -8,6 +8,12 @@ namespace Watermarking.Algorithms
     class LSBHiding
     {
         private Bitmap hostImage;
+        public Bitmap HostImage
+        {
+            get { return hostImage; }
+            set { hostImage = value; }
+        }
+
         private Bitmap secretImage;
         public Bitmap SecretImage
         {
@@ -43,24 +49,6 @@ namespace Watermarking.Algorithms
             this.outputImage = outputImage;
         }
 
-        private void maskImage(Bitmap image, byte bits)
-        {
-            int width = image.Width;
-            int height = image.Height;
-            Color pixelColor;
-            Color pixelNewColor;
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    pixelColor = image.GetPixel(x, y);
-                    pixelNewColor = Color.FromArgb(pixelColor.R & bits, pixelColor.G & bits, pixelColor.B & bits);
-                    image.SetPixel(x, y, pixelNewColor);
-                }
-            }
-        }
-
         public void saveOutputImage(String path, String filename)
         {
             OutputImage.Save(path + filename, ImageFormat.Bmp);
@@ -69,7 +57,7 @@ namespace Watermarking.Algorithms
 
         internal void LSB_LSB()
         {
-            OutputImage = new Bitmap(hostImage);
+            OutputImage = new Bitmap(HostImage);
             Bitmap tmpSecretImage = new Bitmap(secretImage);
             Color outputImgPixelColor;
             Color tmpSecretImgPixelColor;
@@ -121,7 +109,7 @@ namespace Watermarking.Algorithms
 
         internal void LSB_MSB()
         {
-            OutputImage = new Bitmap(hostImage);
+            OutputImage = new Bitmap(HostImage);
             Bitmap tmpSecretImage = new Bitmap(secretImage);
             Color outputImgPixelColor;
             Color tmpSecretImgPixelColor;

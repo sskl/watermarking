@@ -58,7 +58,7 @@
             this.PSNRDataGridView.RowHeadersVisible = false;
             this.PSNRDataGridView.RowHeadersWidth = 10;
             this.PSNRDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.PSNRDataGridView.Size = new System.Drawing.Size(360, 168);
+            this.PSNRDataGridView.Size = new System.Drawing.Size(371, 168);
             this.PSNRDataGridView.TabIndex = 8;
             // 
             // outputImageLabel

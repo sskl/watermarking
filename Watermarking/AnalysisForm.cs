@@ -39,6 +39,11 @@ namespace Watermarking
             PSNRDataGridView.DataSource = dt;
         }
 
+        public void HidePSNRDataGridView()
+        {
+            PSNRDataGridView.Hide();
+        }
+
         internal void Clear()
         {
             outputImgPropertyGrid.SelectedObject = null;

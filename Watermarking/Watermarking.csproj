@@ -82,6 +82,8 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Algorithms\InterlacedBitHiding.cs" />
+    <Compile Include="Algorithms\RandomizedLSBHiding.cs" />
     <Compile Include="Algorithms\LSBHiding.cs" />
     <Compile Include="Algorithms\PSNR.cs" />
     <Compile Include="Algorithms\VisualCryptography.cs" />

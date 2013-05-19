@@ -31,6 +31,8 @@ namespace Watermarking
         private string algorithm;
         private string type;
         private int numberOfBits;
+        private string direction;
+        private int numberOfRndNumbers;
         private AnalysisForm analysisForm;
         private int pictureBoxSize;
 
@@ -41,9 +43,7 @@ namespace Watermarking
 
         public ImageItems(string HostImageFileName,
                           string SecretImageFileName,
-                          string algorithm,
-                          string type,
-                          int numberOfBits,
+                          SettingsForm settingsForm,
                           AnalysisForm analysisForm)
         {
             InitializeComponent();
@@ -56,9 +56,11 @@ namespace Watermarking
             {
                 hostImage = new Bitmap(HostImageFileName);
                 secretImage = new Bitmap(SecretImageFileName);
-                this.algorithm = algorithm;
-                this.type = type;
-                this.numberOfBits = numberOfBits;
+                this.algorithm = settingsForm.SelectedAlgorithm;
+                this.type = settingsForm.Type;
+                this.numberOfBits = settingsForm.NumberOfBits;
+                this.direction = settingsForm.Direction;
+                this.numberOfRndNumbers = settingsForm.NumberOfRndNumber;
                 this.analysisForm = analysisForm;
 
                 RunAlgorithm();
@@ -76,7 +78,7 @@ namespace Watermarking
             }
         }
 
-        public ImageItems(string OutputImageFileName, string algorithm, string type, int numberOfBits)
+        public ImageItems(string OutputImageFileName, SettingsForm settingsForm)
         {
             InitializeComponent();
             if (OutputImageFileName == string.Empty)
@@ -87,9 +89,11 @@ namespace Watermarking
                 hostImageBox.Visible = false;
                 hostImageLabel.Visible = false;
                 outputImage = new Bitmap(OutputImageFileName);
-                this.algorithm = algorithm;
-                this.type = type;
-                this.numberOfBits = numberOfBits;
+                this.algorithm = settingsForm.SelectedAlgorithm;
+                this.type = settingsForm.Type;
+                this.numberOfBits = settingsForm.NumberOfBits;
+                this.direction = settingsForm.Direction;
+                this.numberOfRndNumbers = settingsForm.NumberOfRndNumber;
 
                 DeRunAlgorithm();
 
@@ -158,6 +162,7 @@ namespace Watermarking
                     {
                         LSBHiding lsb = new LSBHiding(hostImage, secretImage);
                         lsb.NumberOfBits = numberOfBits;
+
                         DataTable dt = new DataTable();
                         dt.Columns.Add("Bit");
                         dt.Columns.Add("PSNR R");
@@ -213,6 +218,7 @@ namespace Watermarking
                         vc.CreateShareImages();
                         vc.saveShareImage1(path, "ShareImage1.bmp");
                         vc.saveShareImage2(path, "ShareImage2.bmp");
+
                         DataTable dt = new DataTable();
                         dt.Columns.Add("Bit");
                         dt.Columns.Add("PSNR R");
@@ -252,6 +258,97 @@ namespace Watermarking
 
                         outputImageBox.Image = (Image)outputImage;
                         secretImage = vc.SecretImage;
+
+                    }
+                    catch (Exception E)
+                    {
+                        MessageBox.Show(
+                            E.ToString(),
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    break;
+                case "Randomized LSB Hiding":
+                    try
+                    {
+                        RandomizedLSBHiding rlsb = new RandomizedLSBHiding(hostImage, secretImage, numberOfRndNumbers, direction);
+                        rlsb.NumberOfBits = numberOfBits;
+                        rlsb.GenerateRandomNumbers();
+
+                        DataTable dt = new DataTable();
+                        dt.Columns.Add("Bit");
+                        dt.Columns.Add("PSNR R");
+                        dt.Columns.Add("PSNR G");
+                        dt.Columns.Add("PSNR B");
+                        dt.Columns.Add("PSNR GY");
+                        switch (type)
+                        {
+                            case "LSB-LSB":
+                                rlsb.LSB_LSB();
+                                outputImage = (Bitmap)rlsb.OutputImage.Clone();
+                                rlsb.saveOutputImage(path, "OutputImage_" + type + "_" + numberOfBits.ToString() + "_" + numberOfRndNumbers.ToString() + ".bmp");
+                                for (int i = 1; i <= 7; i++)
+                                {
+                                    rlsb.NumberOfBits = i;
+                                    rlsb.LSB_LSB();
+                                    PSNR psnr = new PSNR(hostImage, rlsb.OutputImage);
+                                    dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+                                }
+                                analysisForm.SetPSNRForDataGrid(dt);
+                                break;
+
+                            case "LSB-MSB":
+                                rlsb.LSB_MSB();
+                                outputImage = (Bitmap)rlsb.OutputImage.Clone();
+                                rlsb.saveOutputImage(path, "OutputImage_" + type + "_" + numberOfBits.ToString() + "_" + numberOfRndNumbers.ToString() + ".bmp");
+                                for (int i = 1; i <= 7; i++)
+                                {
+                                    rlsb.NumberOfBits = i;
+                                    rlsb.LSB_MSB();
+                                    PSNR psnr = new PSNR(hostImage, rlsb.OutputImage);
+                                    dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+                                }
+                                analysisForm.SetPSNRForDataGrid(dt);
+                                break;
+                        }
+
+                        outputImageBox.Image = (Image)outputImage;
+                        secretImage = rlsb.SecretImage;
+
+                    }
+                    catch (Exception E)
+                    {
+                        MessageBox.Show(
+                            E.ToString(),
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    break;
+                case "Interlaced Bit Hiding":
+                    try
+                    {
+                        analysisForm.HidePSNRDataGridView();
+                        InterlacedBitHiding ibh = new InterlacedBitHiding(hostImage, secretImage);
+                        switch (type)
+                        {
+                            case "Odd-Even":
+                                ibh.Odd_Even();
+                                outputImage = (Bitmap)ibh.OutputImage.Clone();
+                                ibh.saveOutputImage(path, "OutputImage_" + type + ".bmp");
+
+                                break;
+
+                            case "Pair-Wise":
+                                ibh.Pair_Wise();
+                                outputImage = (Bitmap)ibh.OutputImage.Clone();
+                                ibh.saveOutputImage(path, "OutputImage_" + type + ".bmp");
+                                break;
+                        }
+
+                        outputImageBox.Image = (Image)outputImage;
+                        secretImage = ibh.SecretImage;
 
                     }
                     catch (Exception E)
@@ -341,6 +438,64 @@ namespace Watermarking
 
                         vc.CreateSecretImage();
                         secretImage = (Bitmap)vc.SecretImage.Clone();
+                        secretImageBox.Image = (Image)secretImage;
+
+                    }
+                    catch (Exception E)
+                    {
+                        MessageBox.Show(
+                            E.ToString(),
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    break;
+                case "Randomized LSB Hiding":
+                    try
+                    {
+                        RandomizedLSBHiding rlsb = new RandomizedLSBHiding(outputImage, numberOfRndNumbers, direction);
+                        rlsb.NumberOfBits = numberOfBits;
+                        rlsb.GenerateRandomNumbers();
+
+                        switch (type)
+                        {
+                            case "LSB-LSB":
+                                rlsb.Reverse_LSB_LSB();
+                                break;
+                            case "LSB-MSB":
+                                rlsb.Reverse_LSB_MSB();
+                                break;
+                        }
+
+                        secretImage = (Bitmap)rlsb.SecretImage.Clone();
+                        secretImageBox.Image = (Image)secretImage;
+
+                    }
+                    catch (Exception E)
+                    {
+                        MessageBox.Show(
+                            E.ToString(),
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    break;
+                case "Interlaced Bit Hiding":
+                    try
+                    {
+                        InterlacedBitHiding ibh = new InterlacedBitHiding(outputImage);
+
+                        switch (type)
+                        {
+                            case "Odd-Even":
+                                ibh.Reverse_Odd_Even();
+                                break;
+                            case "Pair-Wise":
+                                ibh.Reverse_Pair_Wise();
+                                break;
+                        }
+
+                        secretImage = (Bitmap)ibh.SecretImage.Clone();
                         secretImageBox.Image = (Image)secretImage;
 
                     }

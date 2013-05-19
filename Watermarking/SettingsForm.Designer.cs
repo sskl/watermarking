@@ -35,12 +35,16 @@
             this.spnBitCount = new System.Windows.Forms.NumericUpDown();
             this.cmbType = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
+            this.lblRNumberCount = new System.Windows.Forms.Label();
+            this.lblDirection = new System.Windows.Forms.Label();
+            this.cmbDirection = new System.Windows.Forms.ComboBox();
+            this.txtRndNumbers = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.spnBitCount)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(185, 159);
+            this.btnOK.Location = new System.Drawing.Point(185, 225);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(76, 23);
             this.btnOK.TabIndex = 14;
@@ -52,20 +56,22 @@
             // 
             this.cmbAlgorithm.FormattingEnabled = true;
             this.cmbAlgorithm.Items.AddRange(new object[] {
+            "Interlaced Bit Hiding",
             "LSB Hiding",
+            "Randomized LSB Hiding",
             "Visual Cryptography"});
-            this.cmbAlgorithm.Location = new System.Drawing.Point(124, 28);
+            this.cmbAlgorithm.Location = new System.Drawing.Point(124, 27);
             this.cmbAlgorithm.Name = "cmbAlgorithm";
             this.cmbAlgorithm.Size = new System.Drawing.Size(137, 21);
             this.cmbAlgorithm.Sorted = true;
             this.cmbAlgorithm.TabIndex = 13;
-            this.cmbAlgorithm.SelectedIndex = 0;
+            this.cmbAlgorithm.Text = "LSB Hiding";
             this.cmbAlgorithm.SelectedIndexChanged += new System.EventHandler(this.cmbAlgorithm_SelectedIndexChanged);
             // 
             // lblAlgorithm
             // 
             this.lblAlgorithm.AutoSize = true;
-            this.lblAlgorithm.Location = new System.Drawing.Point(29, 28);
+            this.lblAlgorithm.Location = new System.Drawing.Point(30, 30);
             this.lblAlgorithm.Name = "lblAlgorithm";
             this.lblAlgorithm.Size = new System.Drawing.Size(50, 13);
             this.lblAlgorithm.TabIndex = 12;
@@ -74,7 +80,7 @@
             // lblBitCount
             // 
             this.lblBitCount.AutoSize = true;
-            this.lblBitCount.Location = new System.Drawing.Point(29, 110);
+            this.lblBitCount.Location = new System.Drawing.Point(30, 110);
             this.lblBitCount.Name = "lblBitCount";
             this.lblBitCount.Size = new System.Drawing.Size(76, 13);
             this.lblBitCount.TabIndex = 10;
@@ -82,7 +88,7 @@
             // 
             // spnBitCount
             // 
-            this.spnBitCount.Location = new System.Drawing.Point(124, 107);
+            this.spnBitCount.Location = new System.Drawing.Point(124, 108);
             this.spnBitCount.Maximum = new decimal(new int[] {
             7,
             0,
@@ -108,25 +114,70 @@
             this.cmbType.Items.AddRange(new object[] {
             "LSB-LSB",
             "LSB-MSB"});
-            this.cmbType.Location = new System.Drawing.Point(124, 65);
+            this.cmbType.Location = new System.Drawing.Point(124, 67);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(137, 21);
             this.cmbType.Sorted = true;
             this.cmbType.TabIndex = 16;
-            this.cmbType.SelectedIndex = 0;
+            this.cmbType.Text = "LSB-LSB";
             // 
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(29, 68);
+            this.lblType.Location = new System.Drawing.Point(30, 70);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(31, 13);
             this.lblType.TabIndex = 15;
             this.lblType.Text = "Type";
             // 
+            // lblRNumberCount
+            // 
+            this.lblRNumberCount.Location = new System.Drawing.Point(30, 150);
+            this.lblRNumberCount.Name = "lblRNumberCount";
+            this.lblRNumberCount.Size = new System.Drawing.Size(88, 26);
+            this.lblRNumberCount.TabIndex = 17;
+            this.lblRNumberCount.Text = "Number of Rnd Numbers";
+            this.lblRNumberCount.Visible = false;
+            // 
+            // lblDirection
+            // 
+            this.lblDirection.AutoSize = true;
+            this.lblDirection.Location = new System.Drawing.Point(30, 190);
+            this.lblDirection.Name = "lblDirection";
+            this.lblDirection.Size = new System.Drawing.Size(49, 13);
+            this.lblDirection.TabIndex = 18;
+            this.lblDirection.Text = "Direction";
+            this.lblDirection.Visible = false;
+            // 
+            // cmbDirection
+            // 
+            this.cmbDirection.FormattingEnabled = true;
+            this.cmbDirection.Items.AddRange(new object[] {
+            "Horizontally",
+            "Vertically"});
+            this.cmbDirection.Location = new System.Drawing.Point(124, 187);
+            this.cmbDirection.Name = "cmbDirection";
+            this.cmbDirection.Size = new System.Drawing.Size(137, 21);
+            this.cmbDirection.Sorted = true;
+            this.cmbDirection.TabIndex = 20;
+            this.cmbDirection.Text = "Horizontally";
+            this.cmbDirection.Visible = false;
+            // 
+            // txtRndNumbers
+            // 
+            this.txtRndNumbers.Location = new System.Drawing.Point(124, 153);
+            this.txtRndNumbers.Name = "txtRndNumbers";
+            this.txtRndNumbers.Size = new System.Drawing.Size(67, 20);
+            this.txtRndNumbers.TabIndex = 21;
+            this.txtRndNumbers.Visible = false;
+            // 
             // SettingsForm
             // 
-            this.ClientSize = new System.Drawing.Size(294, 210);
+            this.ClientSize = new System.Drawing.Size(294, 266);
+            this.Controls.Add(this.txtRndNumbers);
+            this.Controls.Add(this.cmbDirection);
+            this.Controls.Add(this.lblDirection);
+            this.Controls.Add(this.lblRNumberCount);
             this.Controls.Add(this.cmbType);
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.btnOK);
@@ -152,5 +203,9 @@
         private System.Windows.Forms.NumericUpDown spnBitCount;
         private System.Windows.Forms.ComboBox cmbType;
         private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.Label lblRNumberCount;
+        private System.Windows.Forms.Label lblDirection;
+        private System.Windows.Forms.ComboBox cmbDirection;
+        private System.Windows.Forms.TextBox txtRndNumbers;
     }
 }
