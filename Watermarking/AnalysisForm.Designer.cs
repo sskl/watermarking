@@ -30,6 +30,7 @@
         {
             this.outputImgPropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.PSNRDataGridView = new System.Windows.Forms.DataGridView();
+            this.btnCopyDataGridView = new System.Windows.Forms.Button();
             this.outputImageLabel = new Watermarking.Controls.RotatingLabel();
             ((System.ComponentModel.ISupportInitialize)(this.PSNRDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -50,6 +51,7 @@
             this.PSNRDataGridView.AllowUserToDeleteRows = false;
             this.PSNRDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.PSNRDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.PSNRDataGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.PSNRDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.PSNRDataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
             this.PSNRDataGridView.Location = new System.Drawing.Point(302, 5);
@@ -60,6 +62,16 @@
             this.PSNRDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.PSNRDataGridView.Size = new System.Drawing.Size(371, 168);
             this.PSNRDataGridView.TabIndex = 8;
+            // 
+            // btnCopyDataGridView
+            // 
+            this.btnCopyDataGridView.Location = new System.Drawing.Point(677, 5);
+            this.btnCopyDataGridView.Name = "btnCopyDataGridView";
+            this.btnCopyDataGridView.Size = new System.Drawing.Size(112, 23);
+            this.btnCopyDataGridView.TabIndex = 9;
+            this.btnCopyDataGridView.Text = "Copy PSNR Table";
+            this.btnCopyDataGridView.UseVisualStyleBackColor = true;
+            this.btnCopyDataGridView.Click += new System.EventHandler(this.btnCopyDataGridView_Click);
             // 
             // outputImageLabel
             // 
@@ -75,6 +87,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 179);
+            this.Controls.Add(this.btnCopyDataGridView);
             this.Controls.Add(this.PSNRDataGridView);
             this.Controls.Add(this.outputImageLabel);
             this.Controls.Add(this.outputImgPropertyGrid);
@@ -91,6 +104,7 @@
         private Controls.RotatingLabel outputImageLabel;
         private System.Windows.Forms.PropertyGrid outputImgPropertyGrid;
         private System.Windows.Forms.DataGridView PSNRDataGridView;
+        private System.Windows.Forms.Button btnCopyDataGridView;
 
     }
 }

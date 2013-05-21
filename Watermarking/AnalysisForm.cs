@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Drawing;
+using System.Windows.Forms;
 using Watermarking.Algorithms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -48,6 +49,15 @@ namespace Watermarking
         {
             outputImgPropertyGrid.SelectedObject = null;
             outputImgPropertyGrid.Refresh();
+            PSNRDataGridView.Columns.Clear();
+            PSNRDataGridView.Refresh();
+        }
+
+        private void btnCopyDataGridView_Click(object sender, System.EventArgs e)
+        {
+            PSNRDataGridView.SelectAll();
+            DataObject dataObj = PSNRDataGridView.GetClipboardContent();
+            Clipboard.SetDataObject(dataObj, true);
         }
 
     }

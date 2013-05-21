@@ -29,8 +29,8 @@ namespace Watermarking.Algorithms
 
         public InterlacedBitHiding(Bitmap hostImage, Bitmap secretImage)
         {
-            if (secretImage.Width > hostImage.Width || secretImage.Height > hostImage.Height)
-                throw new Exception("Secret image must be small than host image.");
+            if (secretImage.Width > hostImage.Width || secretImage.Height > hostImage.Height || secretImage.Width < hostImage.Width || secretImage.Height < hostImage.Height)
+                throw new Exception("Secret image must be equal to host image.");
             
             this.hostImage = hostImage;
             this.secretImage = secretImage;

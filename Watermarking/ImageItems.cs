@@ -169,6 +169,7 @@ namespace Watermarking
                         dt.Columns.Add("PSNR G");
                         dt.Columns.Add("PSNR B");
                         dt.Columns.Add("PSNR GY");
+
                         switch (type)
                         {
                             case "LSB-LSB":
@@ -181,18 +182,24 @@ namespace Watermarking
                                     lsb.LSB_LSB();
                                     PSNR psnr = new PSNR(hostImage, lsb.OutputImage);
                                     dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+
+                                    lsb.saveOutputImage(path, "OutputImage_" + type + "_" + i.ToString() + ".bmp");
                                 }
                                 analysisForm.SetPSNRForDataGrid(dt);
                                 break;
+
                             case "LSB-MSB":
                                 lsb.LSB_MSB();
                                 outputImage = (Bitmap)lsb.OutputImage.Clone();
+                                lsb.saveOutputImage(path, "OutputImage_" + type + "_" + numberOfBits.ToString() + ".bmp");
                                 for (int i = 1; i <= 7; i++)
                                 {
                                     lsb.NumberOfBits = i;
                                     lsb.LSB_MSB();
                                     PSNR psnr = new PSNR(hostImage, lsb.OutputImage);
                                     dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+
+                                    lsb.saveOutputImage(path, "OutputImage_" + type + "_" + i.ToString() + ".bmp");
                                 }
                                 analysisForm.SetPSNRForDataGrid(dt);
                                 break;
@@ -210,6 +217,7 @@ namespace Watermarking
                             MessageBoxIcon.Error);
                     }
                     break;
+
                 case "Visual Cryptography":
                     try
                     {
@@ -225,6 +233,7 @@ namespace Watermarking
                         dt.Columns.Add("PSNR G");
                         dt.Columns.Add("PSNR B");
                         dt.Columns.Add("PSNR GY");
+
                         switch (type)
                         {
                             case "LSB-LSB":
@@ -237,6 +246,8 @@ namespace Watermarking
                                     vc.LSB_LSB();
                                     PSNR psnr = new PSNR(hostImage, vc.OutputImage);
                                     dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+
+                                    vc.saveOutputImage(path, "OutputImage_" + type + "_" + i.ToString() + ".bmp");
                                 }
                                 analysisForm.SetPSNRForDataGrid(dt);
                                 break;
@@ -251,6 +262,8 @@ namespace Watermarking
                                     vc.LSB_MSB();
                                     PSNR psnr = new PSNR(hostImage, vc.OutputImage);
                                     dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+
+                                    vc.saveOutputImage(path, "OutputImage_" + type + "_" + i.ToString() + ".bmp");
                                 }
                                 analysisForm.SetPSNRForDataGrid(dt);
                                 break;
@@ -269,6 +282,7 @@ namespace Watermarking
                             MessageBoxIcon.Error);
                     }
                     break;
+
                 case "Randomized LSB Hiding":
                     try
                     {
@@ -282,6 +296,7 @@ namespace Watermarking
                         dt.Columns.Add("PSNR G");
                         dt.Columns.Add("PSNR B");
                         dt.Columns.Add("PSNR GY");
+
                         switch (type)
                         {
                             case "LSB-LSB":
@@ -294,6 +309,8 @@ namespace Watermarking
                                     rlsb.LSB_LSB();
                                     PSNR psnr = new PSNR(hostImage, rlsb.OutputImage);
                                     dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+
+                                    rlsb.saveOutputImage(path, "OutputImage_" + type + "_" + i.ToString() + "_" + numberOfRndNumbers.ToString() + ".bmp");
                                 }
                                 analysisForm.SetPSNRForDataGrid(dt);
                                 break;
@@ -308,6 +325,8 @@ namespace Watermarking
                                     rlsb.LSB_MSB();
                                     PSNR psnr = new PSNR(hostImage, rlsb.OutputImage);
                                     dt.Rows.Add(i.ToString(), psnr.R.ToString(), psnr.G.ToString(), psnr.B.ToString(), psnr.Gray.ToString());
+
+                                    rlsb.saveOutputImage(path, "OutputImage_" + type + "_" + i.ToString() + "_" + numberOfRndNumbers.ToString() + ".bmp");
                                 }
                                 analysisForm.SetPSNRForDataGrid(dt);
                                 break;
@@ -326,6 +345,7 @@ namespace Watermarking
                             MessageBoxIcon.Error);
                     }
                     break;
+
                 case "Interlaced Bit Hiding":
                     try
                     {
@@ -337,7 +357,6 @@ namespace Watermarking
                                 ibh.Odd_Even();
                                 outputImage = (Bitmap)ibh.OutputImage.Clone();
                                 ibh.saveOutputImage(path, "OutputImage_" + type + ".bmp");
-
                                 break;
 
                             case "Pair-Wise":
@@ -379,11 +398,13 @@ namespace Watermarking
                     {
                         LSBHiding lsb = new LSBHiding(outputImage);
                         lsb.NumberOfBits = numberOfBits;
+
                         switch (type)
                         {
                             case "LSB-LSB":
                                 lsb.Reverse_LSB_LSB();
                                 break;
+
                             case "LSB-MSB":
                                 lsb.Reverse_LSB_MSB();
                                 break;
@@ -402,6 +423,7 @@ namespace Watermarking
                             MessageBoxIcon.Error);
                     }
                     break;
+
                 case "Visual Cryptography":
                     try
                     {
@@ -423,14 +445,17 @@ namespace Watermarking
                         {
                             return;
                         }
+
                         VisualCryptography vc = new VisualCryptography(outputImage);
                         vc.ShareImage2 = shareImage2;
                         vc.NumberOfBits = numberOfBits;
+
                         switch (type)
                         {
                             case "LSB-LSB":
                                 vc.Reverse_LSB_LSB();
                                 break;
+
                             case "LSB-MSB":
                                 vc.Reverse_LSB_MSB();
                                 break;
@@ -450,6 +475,7 @@ namespace Watermarking
                             MessageBoxIcon.Error);
                     }
                     break;
+
                 case "Randomized LSB Hiding":
                     try
                     {
@@ -462,6 +488,7 @@ namespace Watermarking
                             case "LSB-LSB":
                                 rlsb.Reverse_LSB_LSB();
                                 break;
+
                             case "LSB-MSB":
                                 rlsb.Reverse_LSB_MSB();
                                 break;
@@ -480,6 +507,7 @@ namespace Watermarking
                             MessageBoxIcon.Error);
                     }
                     break;
+
                 case "Interlaced Bit Hiding":
                     try
                     {
@@ -490,6 +518,7 @@ namespace Watermarking
                             case "Odd-Even":
                                 ibh.Reverse_Odd_Even();
                                 break;
+
                             case "Pair-Wise":
                                 ibh.Reverse_Pair_Wise();
                                 break;
